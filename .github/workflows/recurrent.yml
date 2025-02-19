@@ -34,3 +34,18 @@ jobs:
       - name: Verify output
         run: |
           cat ip/open.txt
+
+      - name: Check for output Base64 Changes
+        id: changes
+        run: |
+              git diff --quiet && echo 'No changes' || echo '::set-output name=changed::true'   
+      - name: Commit and Push Renamed Base64
+        if: steps.changes.outputs.changed == 'true'   
+        run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add ip/list.txt
+            git add ip/open.txt
+            timestamp=$(TZ='Asia/Tehran' date)
+            git commit -m "✅Updated on ${timestamp}"
+            git push
