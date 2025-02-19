@@ -1,1 +1,1 @@
-Skipping invalid IP range: 1.1.1.0/24
+Error: ip_network() got an unexpected keyword argument 'strict_fornum'
