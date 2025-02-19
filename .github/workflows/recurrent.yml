@@ -1,0 +1,35 @@
+name: Expand IP Ranges
+
+on:
+  push:
+    paths:
+      - ".github/workflows/recurrent.yml"
+      - "python_script.py"
+  workflow_dispatch:
+
+jobs:
+  expand-ips:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up dependencies
+        run: |
+          python3 -m pip install ipaddress
+
+      - name: Expand IP ranges
+        env:
+          INPUT_FILE: ip/input.txt
+        run: |
+          python3 python_script.py | tee ip/list.txt
+
+      - name: Extract open ports
+        env:
+          OUTPUT_FILE: ip/open.txt
+        run: |
+          python3 python_script.py | tee ip/open.txt
+
+      - name: Verify output
+        run: |
+          cat ip/open.txt
