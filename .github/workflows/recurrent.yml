@@ -5,6 +5,7 @@ on:
     paths:
       - ".github/workflows/recurrent.yml"
       - "python_script.py"
+      - "ip/input.txt"
   workflow_dispatch:
 
 jobs:
