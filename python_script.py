@@ -8,7 +8,9 @@ def expand_ip_ranges(ip_ranges):
     ip_addresses = {}
     for ip_range in ip_ranges:
         try:
-            networks = [ipaddress.ip_network(range, strict=False) for range in ip_range.split('/')]
+            ip_address, netmask = ip_range.split('/')
+            netmask = int(netmask)
+            networks = [ipaddress.ip_network(f"{ip_address}/{netmask}", strict=False)]
             ip_addresses.update({ip for network in networks for ip in network})
         except ValueError:
             print(f"Warning: Invalid IP range {ip_range}. Skipping...")
